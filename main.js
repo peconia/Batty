@@ -1,7 +1,6 @@
 // Initialize Phaser and create 800 x 490 px game
 var game = new Phaser.Game(800, 490, Phaser.AUTO, 'gameDiv');
-var gameState = {}
-var gameStarted = false
+
 
 // create main state to contain the game
 var mainState = {
@@ -10,7 +9,7 @@ var mainState = {
         //game.stage.backgroundColor = '#71c5cf';
         game.load.image('bgtile', 'assets/stars3.jpg');
         game.load.image('deadbat', 'assets/deadbat.png');
-        game.load.image('pipe', 'assets/pipe.png');
+        game.load.image('obstacle', 'assets/obstacle.png');
         game.load.audio('jump', 'assets/jump.wav');
         game.load.audio('collision', 'assets/collision.wav');
         game.load.spritesheet('batflysheet', 'assets/batsheet1.png', 50, 50, 4);
@@ -36,17 +35,17 @@ var mainState = {
         // call jump when space is hit
         var spaceKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
         spaceKey.onDown.add(this.jump, this);
-        //add sound to jump and hitting pipe
+        //add sound to jump and hitting obstacle
         this.jumpSound = game.add.audio('jump');
         this.hitSound = game.add.audio('collision');
         
-        //add a group for pipes and physics for them
-        this.pipes = game.add.group();
-        this.pipes.enableBody = true;
-        this.pipes.createMultiple(20, 'pipe');
+        //add a group for obstacles and physics for them
+        this.obstacles = game.add.group();
+        this.obstacles.enableBody = true;
+        this.obstacles.createMultiple(20, 'obstacle');
         
-        // add a new row of pipes every 1.5 secs
-        this.timer = game.time.events.loop(1500,        this.addRowOfPipes, this);
+        // add a new row of obstacles every 1.5 secs
+        this.timer = game.time.events.loop(1500,        this.addRowOfObstacles, this);
         
         // add score
         this.score = 0;
@@ -63,8 +62,8 @@ var mainState = {
         if (this.bat.inWorld === false) {
             this.restartGame();
         }
-        // if bat hits pipe, call function for hitting pipe
-        game.physics.arcade.overlap(this.bat, this.pipes, this.hitPipe, null, this);
+        // if bat hits obstacle, call function for hitting obstacle
+        game.physics.arcade.overlap(this.bat, this.obstacles, this.hitObstacle, null, this);
         
         // background
         if (this.bat.alive === true) {
@@ -89,9 +88,9 @@ var mainState = {
         
     },
     
-    hitPipe: function () {
+    hitObstacle: function () {
         "use strict";
-        // no action if bat already hit a pipe
+        // no action if bat already hit a obstacle
         if (this.bat.alive === false) {
             return;
         }
@@ -101,10 +100,10 @@ var mainState = {
         this.bat.play('deadbat');
         
         
-        // prevent new pipes form appearing
+        // prevent new obstacles form appearing
         game.time.events.remove(this.timer);
-        // stop all the visible pipes moving
-        this.pipes.forEachAlive(function (p) {
+        // stop all the visible obstacles moving
+        this.obstacles.forEachAlive(function (p) {
             p.body.velocity.x = 0;
         }, this);
     },
@@ -114,31 +113,31 @@ var mainState = {
         game.state.start('main');
     },
     
-    addOnePipe: function (x, y) {
+    addOneObstacle: function (x, y) {
         "use strict";
-        //get first dead pipe out of the group
-        var pipe = this.pipes.getFirstDead();
+        //get first dead obstacle out of the group
+        var obstacle = this.obstacles.getFirstDead();
         // set position for it
-        pipe.reset(x, y);
-        // Add velocity to the pipe to make it move left
-        pipe.body.velocity.x = -200;
-        // kill the pipe when it is no longer visible
-        pipe.checkWorldBounds = true;
-        pipe.outOfBoundsKill = true;
+        obstacle.reset(x, y);
+        // Add velocity to the obstacle to make it move left
+        obstacle.body.velocity.x = -200;
+        // kill the obstacle when it is no longer visible
+        obstacle.checkWorldBounds = true;
+        obstacle.outOfBoundsKill = true;
     },
     
-    addRowOfPipes: function () {
+    addRowOfObstacles: function () {
         "use strict";
         
         // pick where the hole will be
         var hole = Math.floor(Math.random() * 5) + 1;
-        //add 6 pipes
+        //add 6 obstacles
         for (var i = 0; i < 8; i++) {
             if (i != hole && i != hole + 1) {
-                this.addOnePipe(800, i * 60 + 10);
+                this.addOneObstacle(800, i * 60 + 10);
             }
         }
-        //add one score point when more pipes are created
+        //add one score point when more obstacles are created
         this.score += 1;
         this.labelScore.text = this.score;
     }
