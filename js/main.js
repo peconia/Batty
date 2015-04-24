@@ -48,7 +48,8 @@ var mainState = {
         
         // add score
         this.score = -2;
-        this.labelScore = game.add.text(20, 20, "0", { font: "30px Arial", fill: "#ffffff"});
+        this.labelScore = game.add.text(20, 20, "0", { fill: "#ffffff"});
+        
     },
     
     update: function () {

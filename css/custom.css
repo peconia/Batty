@@ -1,11 +1,15 @@
 
-h1, h2, h3, h4, h5, h6, div {
+h1, h2, h3, h4, h5, h6, div, .score {
     font-family: 'Luckiest Guy', cursive;
     
 }
 
 body { 
     background: url(/assets/frenchstucco.png) repeat 0 0;
+}
+
+.aboutText {
+    font-family: 'Varela Round', sans-serif;
 }
 
 
