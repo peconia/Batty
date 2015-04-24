@@ -6,7 +6,6 @@ var game = new Phaser.Game(800, 490, Phaser.AUTO, 'gameDiv');
 var mainState = {
     preload: function () {
         "use strict";
-        //game.stage.backgroundColor = '#71c5cf';
         game.load.image('bgtile', 'assets/stars3.jpg');
         game.load.image('deadbat', 'assets/deadbat.png');
         game.load.image('obstacle', 'assets/obstacle.png');
@@ -45,10 +44,10 @@ var mainState = {
         this.obstacles.createMultiple(20, 'obstacle');
         
         // add a new row of obstacles every 1.5 secs
-        this.timer = game.time.events.loop(1500,        this.addRowOfObstacles, this);
+        this.timer = game.time.events.loop(1500, this.addRowOfObstacles, this);
         
         // add score
-        this.score = 0;
+        this.score = -2;
         this.labelScore = game.add.text(20, 20, "0", { font: "30px Arial", fill: "#ffffff"});
     },
     
@@ -139,7 +138,11 @@ var mainState = {
         }
         //add one score point when more obstacles are created
         this.score += 1;
-        this.labelScore.text = this.score;
+        if (this.score < 0) {
+            this.labelScore.text = 0;
+        } else {
+            this.labelScore.text = this.score;
+        }
     }
         
     
