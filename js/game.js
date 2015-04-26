@@ -93,6 +93,9 @@ BasicGame.Game.prototype = {
         this.hitSound.play();
         this.bat.play('deadbat');
         
+        // add game over text
+    
+        this.gameOverText = this.game.add.sprite(250, 100, 'gameOver');
         
         // prevent new obstacles form appearing
         this.game.time.events.remove(this.timer);

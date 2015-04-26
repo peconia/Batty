@@ -17,6 +17,7 @@ BasicGame.Preloader.prototype = {
 
         this.load.image('bgtile', 'assets/stars3.jpg');
         this.load.image('obstacle', 'assets/obstacle.png');
+        this.load.image('gameOver', 'assets/gameover.png');
         this.load.audio('jump', 'assets/jump.wav');
         this.load.audio('collision', 'assets/collision.wav');
         this.load.spritesheet('batflysheet', 'assets/batsheet1.png', 50, 50, 4);
