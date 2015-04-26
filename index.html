@@ -5,7 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Batty Flaps</title>
     <script type="text/javascript" src="js/phaser.min.js"></script>
-    <script type="text/javascript" src="js/main.js"></script>
+    
+    
+	<script type="text/javascript" src="js/boot.js"></script>
+	<script type="text/javascript" src="js/preload.js"></script>
+	<script type="text/javascript" src="js/mainmenu.js"></script>
+	<script type="text/javascript" src="js/game.js"></script>
     <!-- fonts -->
     <link href='http://fonts.googleapis.com/css?family=Luckiest+Guy' rel='stylesheet' type='text/css'>
         
@@ -53,6 +58,25 @@
         <div class="row">
             <div class="col-md-8" id="gameDiv"></div>
         </div>
+        
+     
+
+        <script type="text/javascript">
+            window.onload = function() {
+       
+                var game = new Phaser.Game(800, 490, Phaser.AUTO, 'gameDiv');
+            
+                
+                game.state.add('Boot', BasicGame.Boot);
+                game.state.add('Preloader', BasicGame.Preloader);
+                game.state.add('MainMenu', BasicGame.MainMenu);
+                game.state.add('Game', BasicGame.Game);
+     
+                game.state.start('Boot');
+            };
+            
+            </script>
+
     </div>
               
         
